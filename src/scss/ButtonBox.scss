@@ -1,0 +1,9 @@
+.buttonBox {
+    padding: 0 1.2em;
+    width: 100%;
+    height: calc(100% - 150px);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-gap: 5px;
+}
