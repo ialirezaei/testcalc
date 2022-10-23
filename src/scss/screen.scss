@@ -1,9 +1,14 @@
 .screen {
-    height: 1em;
-    margin: 20px;
-    border-radius: 10px;
-    font-size: 4em;
-    padding: 0.7em 0.5rem;
+    height: 100px;
+    width: 95%;
+    margin-bottom: 10px;
+    padding: 0 3rem;
+    border-radius: 5rem;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    color: rgb(88, 88, 88);
+    font-weight: bold;
+    box-sizing: border-box;
+    font-size: 32px;
 }

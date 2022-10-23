@@ -2,7 +2,7 @@ import React from 'react'
 import '../../scss/screen.scss'
 const Screen = ({ value, }) => {
     return (
-        <div className=" screen justify-content-end bg-light bg-opacity-50 ">{value}</div>
+        <div className="bg-opacity-10 mx-auto mb-4 mt-2 bg-primary justify-content-end screen shadow-sm">{value}</div>
     )
 }
 
