@@ -3,7 +3,7 @@ import Wrapper from './hoc/Wrapper'
 import Screen from './hoc/Screen'
 import ButtonBox from './hoc/ButtonBox'
 import { Button } from 'react-bootstrap'
-import { useState } from "react";
+import { useState, } from "react";
 const btnValues = [
     ["C", "+-", "X", "/"],
     [7, 8, 9, "DW"],
@@ -11,8 +11,8 @@ const btnValues = [
     [1, 2, 3, "+"],
     [0, ".", "=", "UP"],
 ];
-const toLocaleString = (num) =>
-    String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
+
+const toLocaleString = (num) => +num
 
 const removeSpaces = (num) => num.toString().replace(/\s/g, "");
 
@@ -22,10 +22,10 @@ const Main = () => {
         num: 0,
         res: 0,
     });
+
     const numClickHandler = (e) => {
         e.preventDefault();
         const value = e.target.innerHTML;
-
         if (removeSpaces(calc.num).length < 16) {
             setCalc({
                 ...calc,
@@ -39,6 +39,7 @@ const Main = () => {
             });
         }
     };
+
 
     const commaClickHandler = (e) => {
         e.preventDefault();
@@ -71,9 +72,7 @@ const Main = () => {
                         ? a - b
                         : sign === "X"
                             ? a * b
-                            : sign === "UP" ? calc.num + calc.res
-                                : sign === "DW" ? calc.num + calc.res :
-                                    a / b
+                            : a / b
             setCalc({
                 ...calc,
                 res:
@@ -101,17 +100,6 @@ const Main = () => {
         });
     };
 
-    const percentClickHandler = () => {
-        let num = calc.num ? parseFloat(removeSpaces(calc.num)) : 0;
-        let res = calc.res ? parseFloat(removeSpaces(calc.res)) : 0;
-
-        setCalc({
-            ...calc,
-            num: (num /= Math.pow(100, 1)),
-            res: (res /= Math.pow(100, 1)),
-            sign: "",
-        });
-    };
 
     const resetClickHandler = () => {
         setCalc({
@@ -122,32 +110,68 @@ const Main = () => {
         });
     };
     const upClickHandler = (e) => {
-        if (calc.num) {
+        if (calc.num || (!calc.res && calc.num === 0)) {
+            switch (calc.sign) {
+                case '-':
+                    setCalc({
+                        ...calc,
+                        sign: "-",
+                        num: parseFloat(removeSpaces(calc.num)) + 1,
+                    })
+                    break;
+
+                case '+':
+                    setCalc({
+                        ...calc,
+                        sign: "+",
+                        num: parseFloat(removeSpaces(calc.num)) + 1,
+                    });
+                    break;
+
+                case "":
+                    setCalc({
+                        ...calc,
+                        sign: "",
+                        num: parseFloat(removeSpaces(calc.num)) + 1,
+                    });
+                    break;
+                case "/":
+                    setCalc({
+                        ...calc,
+                        sign: "/",
+                        num: parseFloat(removeSpaces(calc.num)) + 1,
+                    });
+                    break;
+                case "X":
+                    setCalc({
+                        ...calc,
+                        sign: "X",
+                        num: parseFloat(removeSpaces(calc.num)) + 1,
+                    });
+                    break;
+                default:
+                    break;
+            }
+        } else if (calc.res || (!calc.num && calc.res === 0)) {
             setCalc({
                 ...calc,
-                sign: "UP",
-                num: parseFloat(removeSpaces(calc.num)) + 1,
-            })
-        } else if (calc.res) {
-            setCalc({
-                ...calc,
-                sign: "UP",
+                sign: calc.sign,
                 res: parseFloat(removeSpaces(calc.res)) + 1,
             })
         }
     }
-    const downClickHandler = () => {
-        if (calc.num) {
+    const downClickHandler = (e) => {
+        if (calc.num || (!calc.res && calc.num === 0)) {
             setCalc({
                 ...calc,
-                sign: "DW",
+                sign: calc.sign,
                 num: parseFloat(removeSpaces(calc.num)) - 1,
             })
-        } else if (calc.res) {
+        } else if (calc.res || (!calc.num && calc.res === 0)) {
             setCalc({
                 ...calc,
-                sign: "DW",
-                res: parseFloat(removeSpaces(calc.res)) - 1,
+                sign: calc.sign,
+                num: parseFloat(removeSpaces(calc.num)) - 1,
             })
         }
     }
@@ -167,19 +191,18 @@ const Main = () => {
                                             ? resetClickHandler
                                             : btn === "+-"
                                                 ? invertClickHandler
-                                                : btn === "%"
-                                                    ? percentClickHandler
-                                                    : btn === "="
-                                                        ? equalsClickHandler
-                                                        : btn === "/" || btn === "X" || btn === "-" || btn === "+"
-                                                            ? signClickHandler
-                                                            : btn === "."
-                                                                ? commaClickHandler
-                                                                : btn === "UP"
-                                                                    ? upClickHandler
-                                                                    : btn === "DW"
-                                                                        ? downClickHandler
-                                                                        : numClickHandler
+
+                                                : btn === "="
+                                                    ? equalsClickHandler
+                                                    : btn === "/" || btn === "X" || btn === "-" || btn === "+"
+                                                        ? signClickHandler
+                                                        : btn === "."
+                                                            ? commaClickHandler
+                                                            : btn === "UP"
+                                                                ? upClickHandler
+                                                                : btn === "DW"
+                                                                    ? downClickHandler
+                                                                    : numClickHandler
                                     }
                                     className={`fs-1 bg-opacity-50 ${btn === "=" ? 'bg-danger' : 'bg-gradient'}`}
                                 >
