@@ -26,20 +26,87 @@ const Main2 = () => {
         if (num) {
             setCalc({
                 ...calc,
-                number: num % 1 === 0 ? (calc.number ? parseInt((calc.number).toString() + (num).toString()) : num) : "",
+                number: num === "0" ? num = 0 : num % 1 === 0 ? (calc.number ? parseInt((calc.number).toString() + (num).toString()) : num) : "",
                 result: calc.result,
             })
         } else if (opt) {
+
             setCalc({
                 ...calc,
-                number: calc.result ? 0 : calc.number,
+                number: !calc.result ? 0 : calc.number,
                 result: calc.result ? calc.result : calc.number,
                 opt: (opt ? opt[1] : calc.opt),
             })
         }
     }
-
-    console.log(calc);
+    const operatorHandler = () => {
+        if (calc.opt) {
+            switch (calc.opt) {
+                case "+":
+                    setCalc({
+                        ...calc,
+                        result: calc.result + calc.number,
+                        number: 0,
+                    })
+                    break;
+                case "-":
+                    setCalc({
+                        ...calc,
+                        result: calc.result + calc.number,
+                        number: 0,
+                    })
+                    break;
+                case "*":
+                    setCalc({
+                        ...calc,
+                        result: calc.result * calc.number,
+                        number: 0,
+                    })
+                    break;
+                case "/":
+                    setCalc({
+                        ...calc,
+                        result: calc.result / calc.number,
+                        number: 0,
+                    })
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            alert("Please First Select a Operator")
+        }
+    }
+    const downClickHandler = () => {
+        if (calc.number || (!calc.result && calc.number === 0)) {
+            setCalc({
+                ...calc,
+                opt: calc.opt,
+                number: parseFloat((calc.number)) - 1,
+            })
+        } else if (calc.result || (!calc.number && calc.result === 0)) {
+            setCalc({
+                ...calc,
+                opt: calc.opt,
+                result: parseFloat((calc.result)) - 1,
+            })
+        }
+    }
+    const upClickHandler = () => {
+        if (calc.number || (!calc.result && calc.number === 0)) {
+            setCalc({
+                ...calc,
+                opt: calc.opt,
+                number: parseFloat((calc.number)) + 1,
+            })
+        } else if (calc.result || (!calc.number && calc.result === 0)) {
+            setCalc({
+                ...calc,
+                opt: calc.opt,
+                result: parseFloat((calc.result)) + 1,
+            })
+        }
+    }
     const resetClickHandler = () => {
         setCalc({
             ...calc,
@@ -49,6 +116,7 @@ const Main2 = () => {
         })
 
     }
+    console.log(calc);
     return (
         <div>
             <Wrapper >
@@ -59,7 +127,7 @@ const Main2 = () => {
                             return (
                                 <Button
                                     key={i}
-                                    onClick={btn === "C" ? resetClickHandler : log}
+                                    onClick={btn === "C" ? resetClickHandler : (btn === "=" ? operatorHandler : (btn === "DW" ? downClickHandler : btn === "UP" ? upClickHandler : log))}
                                     className={`fs-1 bg-opacity-50 ${btn === "=" ? 'btn-danger border-danger' : 'bg-gradient'} ${btn === "+" ? 'positive' : ''}`}
                                 >
                                     {btn}
