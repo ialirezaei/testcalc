@@ -52,7 +52,7 @@ const Main2 = () => {
                 case "-":
                     setCalc({
                         ...calc,
-                        result: calc.result + calc.number,
+                        result: calc.result - calc.number,
                         number: 0,
                     })
                     break;

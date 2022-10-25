@@ -1,4 +1,13 @@
+@font-face {
+    font-family: "digital";
+    src: url("../fonts/digital-7.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 .screen {
+    font-family: "digital" !important;
+
     height: 100px;
     width: 95%;
     margin-bottom: 10px;
@@ -10,5 +19,5 @@
     color: rgb(88, 88, 88);
     font-weight: bold;
     box-sizing: border-box;
-    font-size: 32px;
+    font-size: 50px;
 }
